@@ -1,0 +1,9 @@
+
+
+Migrating from private IMAP to Google Apps Email
+
+How to use:
+
+1. Update imapsync-list file with user/password email account that you will migrate, then move to /tmp folder.
+2. Change HOSTSOURCE in imapsync.sh to your ORIGIN SERVER.
+3. Run script: $ sudo ./imapsync.sh
