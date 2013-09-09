@@ -49,7 +49,8 @@ fi
 cat imapsync-list|grep -v "^#" | sed '/^ *$/d' > /tmp/imapsync-list
 
 LIST="/tmp/imapsync-list"
-HOSTSOURCE="mx1.domain.com"
+SERVER1="mx1.domain.com"
+SERVER2="imap.gmail.com"
 HIDE="--nofoldersizes --skipsize" #Blank this out if you want to see folder sizes
 
 while IFS=: read UNAME1 PWORD1 UNAME2 PWORD2; do
