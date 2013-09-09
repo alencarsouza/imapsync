@@ -1,7 +1,28 @@
 #!/bin/bash
-
+#
 # imapsync.sh - Migrating from private IMAP to Google Apps Email
 # imapsync-list - standard list of accounts (need move to /tmp folder)
+#
+#
+# Copyright (c) 2013 Junior Holowka <junior.holowka@gmail.com>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
 
 
 # check for root
@@ -17,7 +38,7 @@ fi
 				libterm-readkey-perl libdate-manip-perl libdate-manip-perl libmail-imapclient-perl \
 				makepasswd rcs perl-doc libmail-imapclient-perl make
 
-# cloning and installing imapsync (version 1.525)
+# cloning and installing imapsync
  git clone git://github.com/imapsync/imapsync.git
  cd imapsync/
  make install
@@ -37,16 +58,13 @@ while IFS=: read UNAME1 PWORD1 UNAME2 PWORD2; do
 
 	# sync special folders to gmail
 	imapsync --syncinternaldates --useheader 'Message-Id' \
-	--host1 ${HOSTSOURCE} --user1 ${UNAME1} \
+	--host1 ${SERVER1} --user1 ${UNAME1} \
 	--password1 ${PWORD1} --ssl1 \
-	--host2 imap.googlemail.com \
+	--host2 ${SERVER2} \
 	--port2 993 --user2 ${UNAME2} \
 	--password2 ${PWORD2} --ssl2 \
-	--ssl2 --noauthmd5 --split1 200 --split2 200 ${HIDE} \
-	--folder "Inbox/Sent" --prefix2 '[Gmail]/' --regextrans2 's/Inbox\/Sent/Sent Mail/' \
-	--folder "Inbox/Spam" --prefix2 '[Gmail]/' --regextrans2 's/Inbox\/Spam/Spam/' \
-	--folder "Inbox/Trash" --prefix2 '[Gmail]/' --regextrans2 's/Inbox\/Trash/Trash/' \
-	--folder "Inbox/Drafts" --prefix2 '[Gmail]/' --regextrans2 's/Inbox\/Drafts/Drafts/' \
+	--authmech1 LOGIN --authmech2 LOGIN --split1 200 --split2 200 ${HIDE} \
+	--exclude 'Drafts|Trash|Spam|Sent'
 
 done < ${LIST}
 
