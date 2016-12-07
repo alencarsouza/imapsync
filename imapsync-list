@@ -2,5 +2,5 @@
 #
 # {old_user}:{old_pass}:{new_user}:{new_pass}
 #
-user@domain.com:oldpass:user@domain.com:newpass
 
+user@domain.com:oldpass:user@domain.com:newpass
